@@ -172,3 +172,10 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# project folder
+runs
+workspace/annotations
+workspace/verify
+workspace/exported_model
+yolo*
