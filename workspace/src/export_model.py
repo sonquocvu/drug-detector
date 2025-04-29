@@ -15,7 +15,7 @@ class ExportModel:
         parser = argparse.ArgumentParser(description = "Export YOLO Model.")
         parser.add_argument("--model_path", type=str, help="Path to the exported model.")
         parser.add_argument("--output_folder", type=str, help="Path to the folder to save exported model.")
-        parser.add_argument("--format", default="torchscript", type=str, help="The format of the exported model.")
+        parser.add_argument("--format", default="torchscript", type=str, help="The format of the exported model. Default: torchscript")
         args = parser.parse_args()
 
         return args

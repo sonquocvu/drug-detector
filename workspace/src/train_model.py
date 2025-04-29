@@ -8,6 +8,7 @@ from ultralytics import YOLO
 class TrainModel:
 
     def __init__(self):
+        self.task = "detect"
         self.data = ""
         self.name = "training-model"
         self.epochs = 100
@@ -37,7 +38,7 @@ class TrainModel:
             "--optimizer",
             type=str,
             default="AdamW",
-            help="The optimizer. Default: AmdaW."
+            help="The optimizer (SGD, Adam, AdamW). Default: AmdaW."
         )
         parser.add_argument(
             "--epochs",
@@ -97,6 +98,7 @@ class TrainModel:
         self.device = args.device or self.device
         self.workers = args.workers or self.workers
         self.patience = args.patience or self.patience
+        self.optimizer = args.optimizer or self.optimizer
         self.initial_learning_rate = args.lrt or self.initial_learning_rate * (self.batch_size / 64)
         self.verbose = args.verbose
 
@@ -105,6 +107,7 @@ class TrainModel:
 
         # Train the model
         model.train(
+            task=self.task,
             data=self.data,
             epochs=self.epochs,
             imgsz=self.img_size,
@@ -115,7 +118,20 @@ class TrainModel:
             name=self.name,
             workers=self.workers,
             patience=self.patience,
-            verbose=self.verbose
+            verbose=self.verbose,
+            hsv_h=0.015,
+            hsv_s=0.7,
+            hsv_v=0.4,
+            degrees=0.0,
+            translate=0.15,
+            scale=0.5,
+            shear=0.0,
+            perspective=0.0,
+            flipud=0.0,
+            fliplr=0.5,
+            mosaic=1.0,
+            mixup=0.1,
+            copy_paste=0.0,            
         )
 
 if __name__ == "__main__":

@@ -1,0 +1,85 @@
+*********************************************************************************************************************************************************************
+Version 1 (Best Version):
+- Use default parameters
+
+*********************************************************************************************************************************************************************
+Version 2:
+- Adjust optimizer to AdamW
+- Adjust initial learning rate from 0.01 to 0.0025
+
+*********************************************************************************************************************************************************************
+Version 3:
+- Adjust optimizer to SGD
+
+engine/trainer: task=detect, mode=train, model=yolov8m.pt, data=workspace/annotations/data.yaml, epochs=100, time=None, patience=20, batch=16, imgsz=640, save=True, save_period=-1, cache=False, device=0, workers=4, project=None, name=drug-box-detection7, exist_ok=False, pretrained=True, optimizer=SGD, verbose=True, seed=0, deterministic=True, single_cls=False, rect=False, cos_lr=False, close_mosaic=10, resume=False, amp=True, fraction=1.0, profile=False, freeze=None, multi_scale=False, overlap_mask=True, mask_ratio=4, dropout=0.0, val=True, split=val, save_json=False, conf=None, iou=0.7, max_det=300, half=False, dnn=False, plots=True, source=None, vid_stride=1, stream_buffer=False, visualize=False, augment=False, agnostic_nms=False, classes=None, retina_masks=False, embed=None, show=False, save_frames=False, save_txt=False, save_conf=False, save_crop=False, show_labels=True, show_conf=True, show_boxes=True, line_width=None, format=torchscript, keras=False, optimize=False, int8=False, dynamic=False, simplify=True, opset=None, workspace=None, nms=False, lr0=0.0025, lrf=0.01, momentum=0.937, weight_decay=0.0005, warmup_epochs=3.0, warmup_momentum=0.8, warmup_bias_lr=0.1, box=7.5, cls=0.5, dfl=1.5, pose=12.0, kobj=1.0, nbs=64, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, degrees=0.0, translate=0.1, scale=0.5, shear=0.0, perspective=0.0, flipud=0.0, fliplr=0.5, bgr=0.0, mosaic=1.0, mixup=0.0, copy_paste=0.0, copy_paste_mode=flip, auto_augment=randaugment, erasing=0.4, cfg=None, tracker=botsort.yaml
+
+Model summary (fused): 92 layers, 25,861,762 parameters, 0 gradients, 78.8 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 5/5 [00:01<00:00,  2.80it/s]
+                   all        135        136      0.727      0.721      0.898      0.674
+           AnNhietST30         18         18          1      0.721      0.983      0.807
+              Corbiere          3          3      0.193          1      0.863      0.698
+              Geotonik          1          1     0.0441          1      0.995      0.398
+          LungRecovery          2          2      0.157          1      0.995      0.945
+             Padolcure          1          1      0.509          1      0.995      0.497
+               Suporan         20         20          1      0.247      0.803      0.614
+              Tragutan         18         18          1       0.68      0.834      0.749
+               Vitamix         19         19       0.93      0.698      0.938      0.779
+                Vlacol         15         15          1      0.696      0.897      0.723
+         VrohtoVitamin          6          6      0.895      0.333      0.639       0.33
+                Waisan         15         15          1      0.378      0.851       0.65
+              YumagelF         18         18          1      0.893      0.988      0.895
+Speed: 0.2ms preprocess, 8.1ms inference, 0.0ms loss, 1.3ms postprocess per image
+
+*********************************************************************************************************************************************************************
+Version 4:
+- Adjust optimizer to SGD
+- Adjust Augmentation: translate from 0.1 to 0.15, mixup from 0.0 to 0.1
+
+engine/trainer: task=detect, mode=train, model=yolov8m.pt, data=workspace/annotations/data.yaml, epochs=100, time=None, patience=20, batch=16, imgsz=640, save=True, save_period=-1, cache=False, device=0, workers=4, project=None, name=drug-box-detection8, exist_ok=False, pretrained=True, optimizer=SGD, verbose=True, seed=0, deterministic=True, single_cls=False, rect=False, cos_lr=False, close_mosaic=10, resume=False, amp=True, fraction=1.0, profile=False, freeze=None, multi_scale=False, overlap_mask=True, mask_ratio=4, dropout=0.0, val=True, split=val, save_json=False, conf=None, iou=0.7, max_det=300, half=False, dnn=False, plots=True, source=None, vid_stride=1, stream_buffer=False, visualize=False, augment=False, agnostic_nms=False, classes=None, retina_masks=False, embed=None, show=False, save_frames=False, save_txt=False, save_conf=False, save_crop=False, show_labels=True, show_conf=True, show_boxes=True, line_width=None, format=torchscript, keras=False, optimize=False, int8=False, dynamic=False, simplify=True, opset=None, workspace=None, nms=False, lr0=0.0025, lrf=0.01, momentum=0.937, weight_decay=0.0005, warmup_epochs=3.0, warmup_momentum=0.8, warmup_bias_lr=0.1, box=7.5, cls=0.5, dfl=1.5, pose=12.0, kobj=1.0, nbs=64, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, degrees=0.0, translate=0.15, scale=0.5, shear=0.0, perspective=0.0, flipud=0.0, fliplr=0.5, bgr=0.0, mosaic=1.0, mixup=0.1, copy_paste=0.0, copy_paste_mode=flip, auto_augment=randaugment, erasing=0.4, cfg=None, tracker=botsort.yaml
+
+Model summary (fused): 92 layers, 25,861,762 parameters, 0 gradients, 78.8 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 5/5 [00:01<00:00,  2.84it/s]
+                   all        135        136      0.787      0.695      0.838      0.653
+           AnNhietST30         18         18          1      0.717      0.992      0.769
+              Corbiere          3          3      0.466          1      0.995      0.863
+              Geotonik          1          1      0.043          1      0.111     0.0442
+          LungRecovery          2          2      0.493          1      0.995      0.895
+             Padolcure          1          1      0.537          1      0.995      0.497
+               Suporan         20         20          1      0.164      0.876      0.686
+              Tragutan         18         18          1      0.667      0.829      0.737
+               Vitamix         19         19          1      0.469      0.946      0.798
+                Vlacol         15         15      0.962      0.867      0.905      0.781
+         VrohtoVitamin          6          6          1          0      0.573      0.234
+                Waisan         15         15          1      0.568      0.874      0.671
+              YumagelF         18         18      0.946      0.889      0.967      0.858
+Speed: 0.6ms preprocess, 8.2ms inference, 0.0ms loss, 1.8ms postprocess per image
+
+*********************************************************************************************************************************************************************
+Version 5:
+- Adjust optimizer to AdamW
+- Adjust Augmentation: translate from 0.1 to 0.15, mixup from 0.0 to 0.1
+engine/trainer: task=detect, mode=train, model=yolov8m.pt, data=workspace/annotations/data.yaml, epochs=100, time=None, patience=20, batch=16, imgsz=640, save=True, save_period=-1, cache=False, device=0, workers=4, project=None, name=drug-box-detection9, exist_ok=False, pretrained=True, optimizer=AdamW, verbose=True, seed=0, deterministic=True, single_cls=False, rect=False, cos_lr=False, close_mosaic=10, resume=False, amp=True, fraction=1.0, profile=False, freeze=None, multi_scale=False, overlap_mask=True, mask_ratio=4, dropout=0.0, val=True, split=val, save_json=False, conf=None, iou=0.7, max_det=300, half=False, dnn=False, plots=True, source=None, vid_stride=1, stream_buffer=False, visualize=False, augment=False, agnostic_nms=False, classes=None, retina_masks=False, embed=None, show=False, save_frames=False, save_txt=False, save_conf=False, save_crop=False, show_labels=True, show_conf=True, show_boxes=True, line_width=None, format=torchscript, keras=False, optimize=False, int8=False, dynamic=False, simplify=True, opset=None, workspace=None, nms=False, lr0=0.0025, lrf=0.01, momentum=0.937, weight_decay=0.0005, warmup_epochs=3.0, warmup_momentum=0.8, warmup_bias_lr=0.1, box=7.5, cls=0.5, dfl=1.5, pose=12.0, kobj=1.0, nbs=64, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, degrees=0.0, translate=0.15, scale=0.5, shear=0.0, perspective=0.0, flipud=0.0, fliplr=0.5, bgr=0.0, mosaic=1.0, mixup=0.1, copy_paste=0.0, copy_paste_mode=flip, auto_augment=randaugment, erasing=0.4, cfg=None, tracker=botsort.yaml
+
+Model summary (fused): 92 layers, 25,861,762 parameters, 0 gradients, 78.8 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 5/5 [00:01<00:00,  2.85it/s]
+                   all        135        136      0.633      0.719      0.794      0.611
+           AnNhietST30         18         18      0.776      0.833      0.892      0.747
+              Corbiere          3          3      0.129          1      0.995      0.764
+              Geotonik          1          1     0.0642          1      0.497      0.298
+          LungRecovery          2          2     0.0641          1      0.995      0.846
+             Padolcure          1          1      0.319          1      0.995      0.497
+               Suporan         20         20      0.637       0.35      0.724      0.573
+              Tragutan         18         18      0.918          1      0.995      0.858
+               Vitamix         19         19       0.82      0.526      0.648      0.567
+                Vlacol         15         15          1        0.7      0.882      0.661
+         VrohtoVitamin          6          6          1          0      0.187     0.0596
+                Waisan         15         15          1      0.278      0.795      0.623
+              YumagelF         18         18      0.871      0.944      0.927      0.843
+Speed: 0.6ms preprocess, 8.6ms inference, 0.0ms loss, 1.1ms postprocess per image
+
+*********************************************************************************************************************************************************************
+Version 6:
+- Keep parameters like Version 5
+- Increment epochs to 200, and patience to 50
+
+engine/trainer: task=detect, mode=train, model=yolov8m.pt, data=workspace/annotations/data.yaml, epochs=200, time=None, patience=50, batch=16, imgsz=640, save=True, save_period=-1, cache=False, device=0, workers=4, project=None, name=drug-box-detection10, exist_ok=False, pretrained=True, optimizer=AdamW, verbose=True, seed=0, deterministic=True, single_cls=False, rect=False, cos_lr=False, close_mosaic=10, resume=False, amp=True, fraction=1.0, profile=False, freeze=None, multi_scale=False, overlap_mask=True, mask_ratio=4, dropout=0.0, val=True, split=val, save_json=False, conf=None, iou=0.7, max_det=300, half=False, dnn=False, plots=True, source=None, vid_stride=1, stream_buffer=False, visualize=False, augment=False, agnostic_nms=False, classes=None, retina_masks=False, embed=None, show=False, save_frames=False, save_txt=False, save_conf=False, save_crop=False, show_labels=True, show_conf=True, show_boxes=True, line_width=None, format=torchscript, keras=False, optimize=False, int8=False, dynamic=False, simplify=True, opset=None, workspace=None, nms=False, lr0=0.0025, lrf=0.01, momentum=0.937, weight_decay=0.0005, warmup_epochs=3.0, warmup_momentum=0.8, warmup_bias_lr=0.1, box=7.5, cls=0.5, dfl=1.5, pose=12.0, kobj=1.0, nbs=64, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, degrees=0.0, translate=0.15, scale=0.5, shear=0.0, perspective=0.0, flipud=0.0, fliplr=0.5, bgr=0.0, mosaic=1.0, mixup=0.1, copy_paste=0.0, copy_paste_mode=flip, auto_augment=randaugment, erasing=0.4, cfg=None, tracker=botsort.yaml
