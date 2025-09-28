@@ -8,14 +8,14 @@ class ExportModel:
     def __init__(self):
         self.model_path = ""
         self.output_folder = ""
-        self.format = "torchscript"
+        self.format = "engine"
 
 
     def parse_arguments(self):
         parser = argparse.ArgumentParser(description = "Export YOLO Model.")
         parser.add_argument("--model_path", type=str, help="Path to the exported model.")
         parser.add_argument("--output_folder", type=str, help="Path to the folder to save exported model.")
-        parser.add_argument("--format", default="torchscript", type=str, help="The format of the exported model. Default: torchscript")
+        parser.add_argument("--format", default="engine", type=str, help="The format of the exported model. Default: torchscript")
         args = parser.parse_args()
 
         return args
@@ -43,7 +43,7 @@ class ExportModel:
         
         # export model
         model = YOLO(self.model_path)
-        self.model_path = model.export(format=self.format)
+        self.model_path = model.export(format=self.format, imgsz=640, half=True, device=0)
 
         # move the model to output folder
         shutil.move(self.model_path, self.output_folder)

@@ -1,65 +1,70 @@
 import argparse
 import os
-import cv2
-from datetime import datetime
+import json
 from pathlib import Path
 from ultralytics import YOLO
 
 
 class VerifyModel():
 
-    def __init__(self):
-        self.model_path = ""
-        self.input_folder = ""
-        self.output_folder = ""
-        self.task = "detect"
-        self.version = "v1.0"
-
     def parse_arguments(self):
         parser = argparse.ArgumentParser(description = "Test YOLO Model on an Image.")
-        parser.add_argument("--model_path", type=str, help="Path to the exported model.")
-        parser.add_argument("--input_folder", type=str, help="Path to the input folder containing images.")
-        parser.add_argument("--output_folder", type=str, help="Path to the folder to save bounding images.")
-        parser.add_argument("--task", type=str, default="detect", help="Kind of task to be performed. Default: detect.")
-        parser.add_argument("--version", default="v1.0", type=str, help="The version of the expored model.")
+        parser.add_argument("--engine", required=True, help="Path to .engine file")
+        parser.add_argument("--imgsz", type=int, default=640, help="Inference size; must match engine build (e.g., 640 or 832)")
+        parser.add_argument("--conf", type=float, default=0.25, help="Confidence threshold")
+        parser.add_argument("--iou", type=float, default=0.45, help="NMS IoU threshold")
+        parser.add_argument("--source", required=True, help="Image path, folder path, video path, or webcam index (e.g., 0)")
+        parser.add_argument("--out", default="runs_detect_trt", help="Output directory")
         args = parser.parse_args()
 
         return args
-
+    
     def start(self, args):
 
-        if args.version:
-            self.version = args.version
-        self.model_path = args.model_path
-        self.input_folder = args.input_folder
-        self.output_folder = args.output_folder
-        self.task = args.task
-        
-        # Load model
-        model = YOLO(self.model_path, task=self.task)
-
         # Make sure output folder exists
-        os.makedirs(self.output_folder, exist_ok=True)
+        os.makedirs(args.out, exist_ok=True)
 
-        # Run inference on all images
-        image_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.jfif')
-        image_files = [f for f in Path(self.input_folder).iterdir() if f.suffix.lower() in image_extensions]
+        # Load model
+        model = YOLO(args.engine, task="detect")
 
-        for img_path in image_files:
-            # Run inference
-            results = model(img_path)
-                                     
-            # Get annotated image (BGR NumPy array)
-            annotated_img = results[0].plot()
+        # Map to nice names
+        code_to_nice = {}
+        HERE = Path(__file__).parent
+        json_path = HERE / "drug_name.json"
+        with json_path.open("r", encoding="utf-8") as f:
+            code_to_nice = json.load(f)
+        
+        id_to_nice = {
+            cid: code_to_nice.get(name, name) for cid, name in model.names.items()
+        }
+        
+        # Try to set on the underlying model first
+        if hasattr(model, "model") and hasattr(model.model, "names"):
+            print("Debug 1")
+            model.model.names = id_to_nice  # <- usually works
 
-            # Append version to filename
-            new_name = f"{img_path.stem}_{self.version}{img_path.suffix}"
-            save_path = os.path.join(self.output_folder, new_name)
+        # Some versions also read from predictor.names
+        if hasattr(model, "predictor"):
+            try:
+                print("Debug 2")
+                model.predictor.names = id_to_nice
+            except Exception:
+                print("Debug 3")
+                pass
 
-            # Save image
-            cv2.imwrite(save_path, annotated_img)
-            print(f"Inference done for {new_name} → saved to {self.output_folder}")     
-                
+        # Run inference
+        model.predict(
+            source=args.source,
+            imgsz=args.imgsz,
+            conf=args.conf,
+            iou=args.iou,
+            device=0,
+            save=True,
+            project=args.out,
+            name="yolo8s_results",
+            verbose=False
+        )
+                                          
         print(f"Verify model done.")
 
 if __name__ == '__main__':
